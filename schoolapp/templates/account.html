@@ -5,7 +5,7 @@
         <div class="media">
             <img class="rounded-circle account-img" src="{{ image_file }}">
             <div class="media-body">
-                <h2 class="account-heading">{{ current_user.username }}</h2>
+                <h2 class="account-heading">{{ current_user.full_name }}</h2>
                 <p class="text-secondary">{{ current_user.email }}</p>
             </div>
         </div>
@@ -15,16 +15,16 @@
                 <legend class="border-bottom mb-4">Account Info</legend>
 
                 <div class="form-group">
-                    {{ form.username.label(class="form-control-label") }}
-                    {% if form.username.errors %}
-                        {{ form.username(class="form-control form-control-lg is-invalid") }}
+                    {{ form.full_name.label(class="form-control-label") }}
+                    {% if form.full_name.errors %}
+                        {{ form.full_name(class="form-control form-control-lg is-invalid") }}
                         <div class="invalid-feedback">
-                            {% for error in form.username.errors %}
+                            {% for error in form.full_name.errors %}
                                 <span>{{ error }}</span>
                             {% endfor %}
                         </div>
                     {% else %}
-                        {{ form.username(class="form-control form-control-lg") }}
+                        {{ form.full_name(class="form-control form-control-lg") }}
                     {% endif %}
                 </div>
 
@@ -43,16 +43,16 @@
                 </div>
 
                 <div class="form-group">
-                    {{ form.age.label(class="form-control-label") }}
-                    {% if form.age.errors %}
-                        {{ form.age(class="form-control form-control-lg is-invalid") }}
+                    {{ form.date_of_birth.label(class="form-control-label") }} (DAY/MONTH/YEAR)
+                    {% if form.date_of_birth.errors %}
+                        {{ form.date_of_birth(class="form-control form-control-lg is-invalid") }}
                         <div class="invalid-feedback">
-                            {% for error in form.age.errors %}
+                            {% for error in form.date_of_birth.errors %}
                                 <span>{{ error }}</span>
                             {% endfor %}
                         </div>
                     {% else %}
-                        {{ form.age(class="form-control form-control-lg") }}
+                        {{ form.date_of_birth(class="form-control form-control-lg") }}
                     {% endif %}
                 </div>
 
