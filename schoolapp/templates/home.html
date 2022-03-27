@@ -2,6 +2,7 @@
 {% block content %}
     <h1>Students</h1>
     {% for user in users %}
+        {% if user.active == 1 %}
         <article class="media content-section">
             <img class="rounded-circle article-mg" style="padding:20px; width: 150px; height: 150px;"
                  src="{{ url_for("static", filename="profile_pics/" + user.image_file) }}">
@@ -10,9 +11,11 @@
                     <a class="mr-2" href="#">{{ user.full_name }}</a>
                     <small class="text-muted">{{ user.email }}</small>
                 </div>
-                <p><a class="article-title" href="#">Date Of Birth: {{ user.date_of_birth }}</a></p>
+                <p>Date Of Birth: {{ user.date_of_birth }}</p>
+                <p>Phone Number: {{ user.phone_number }}</p>
                 <p class="article-content">Grade: {{ user.grade }}</p>
             </div>
         </article>
+        {% endif %}
     {% endfor %}
 {% endblock content %}

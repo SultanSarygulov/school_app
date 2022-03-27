@@ -15,6 +15,11 @@ class InsertForm(FlaskForm):
     grade = IntegerField("Grade", validators=[DataRequired()])
     date_of_birth = StringField("Date Of Birth", validators=[DataRequired()])
     address = StringField("Address", validators=[DataRequired()])
+    phone_number = StringField("Phone Number", validators=[DataRequired()])
+    tuition_fee = StringField("Tuition Fee")
+    additional_info = StringField("Additional Info")
+    gender = StringField("Gender")
+    active = IntegerField("Active")
 
     def validate_full_name(self, full_name):
         user = User.query.filter_by(full_name=full_name.data).first()
@@ -36,6 +41,10 @@ class RegistrationForm(FlaskForm):
     confirm_password = PasswordField('Confirm Password',
                                      validators=[DataRequired(), EqualTo('password')])
     grade = IntegerField("Grade", validators=[DataRequired()])
+    phone_number = StringField("Phone Number", validators=[DataRequired()])
+    tuition_fee = StringField("Tuition Fee")
+    additional_info = StringField("Additional Info")
+    gender = StringField("Gender")
     date_of_birth = StringField("Date Of Birth", validators=[DataRequired()])
     address = StringField("Address", validators=[DataRequired()])
     submit = SubmitField('Sign Up')
@@ -62,13 +71,13 @@ class UpdateAccountForm(FlaskForm):
     full_name = StringField('Full Name', validators=[DataRequired(), Length(min=2, max=100)])
     email = StringField('Email', validators=[DataRequired(), Email()])
     grade = IntegerField("Grade", validators=[DataRequired()])
-
     date_of_birth = StringField("Date Of Birth", validators=[DataRequired()])
-
+    phone_number = StringField("Phone Number", validators=[DataRequired()])
+    tuition_fee = StringField("Tuition Fee")
+    additional_info = StringField("Additional Info")
+    gender = StringField("Gender")
     address = StringField("Address", validators=[DataRequired()])
-
     picture = FileField("Update Profile Picture", validators=[FileAllowed(["jpg", "png"])])
-
     submit = SubmitField('Update')
 
     def validate_full_name(self, full_name):

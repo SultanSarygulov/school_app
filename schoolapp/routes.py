@@ -18,7 +18,6 @@ def home():
 @app.route('/index')
 def index():
     users = User.query.all()
-
     return render_template("index.html", users=users)
 
 
@@ -26,8 +25,10 @@ def index():
 def insert():
     form = InsertForm()
     if form.validate_on_submit():
-        user = User(full_name=form.full_name.data, email=form.email.data,
-                    date_of_birth=form.date_of_birth.data, address=form.address.data, grade=form.grade.data)
+        user = User(full_name=form.full_name.data, email=form.email.data, password=hashed_password,
+                    date_of_birth=form.date_of_birth.data, address=form.address.data, grade=form.grade.data,
+                    phone_number=form.phone_number.data, additional_info=form.additional_info.data,
+                    tuition_fee=form.tuition_fee.data, gender=form.gender.data)
         db.session.add(user)
         db.session.commit()
         flash("Student Inserted Successfully")
@@ -39,12 +40,15 @@ def insert():
 def update():
     form = InsertForm()
     if request.method == 'POST':
-        full_name = form.full_name.data
         current_user.full_name = form.full_name.data
         current_user.email = form.email.data
         current_user.date_of_birth = form.date_of_birth.data
         current_user.grade = form.grade.data
         current_user.address = form.address.data
+        current_user.gender = form.gender.data
+        current_user.active = form.active.data
+        current_user.tuition_fee = form.tuition_fee.data
+        current_user.additional_info = form.additional_info.data
         db.session.commit()
         flash("Student Updated Successfully")
 
@@ -75,7 +79,9 @@ def register():
     if form.validate_on_submit():
         hashed_password = bcrypt.generate_password_hash(form.password.data).decode('utf-8')
         user = User(full_name=form.full_name.data, email=form.email.data, password=hashed_password,
-                    date_of_birth=form.date_of_birth.data, address=form.address.data, grade=form.grade.data)
+                    date_of_birth=form.date_of_birth.data, address=form.address.data, grade=form.grade.data,
+                    phone_number=form.phone_number.data, additional_info=form.additional_info.data,
+                    tuition_fee=form.tuition_fee.data, gender=form.gender.data)
         db.session.add(user)
         db.session.commit()
         flash('Your account has been created! You are now able to log in', 'success')
@@ -132,6 +138,10 @@ def account():
         current_user.date_of_birth = form.date_of_birth.data
         current_user.grade = form.grade.data
         current_user.address = form.address.data
+        current_user.additional_info = form.additional_info.data
+        current_user.tuition_fee = form.tuition_fee.data
+        current_user.phone_number = form.phone_number.data
+        current_user.gender = form.gender.data
         db.session.commit()
         flash('Your account has been updated!', 'success')
         return redirect(url_for('account'))
@@ -141,6 +151,10 @@ def account():
         form.date_of_birth.data = current_user.date_of_birth
         form.grade.data = current_user.grade
         form.address.data = current_user.address
+        form.additional_info.data = current_user.additional_info
+        form.gender.data = current_user.gender
+        form.tuition_fee.data = current_user.tuition_fee
+        form.phone_number.data = current_user.phone_number
     image_file = url_for('static', filename='profile_pics/' + current_user.image_file)
     return render_template('account.html', title='Account',
                            image_file=image_file, form=form)
