@@ -11,7 +11,7 @@ def load_user(user_id):
 class User(db.Model, UserMixin):
     id = db.Column(db.Integer, primary_key=True)
     email = db.Column(db.String(120), unique=True, nullable=False)
-    password = db.Column(db.String(60), nullable=False)
+    password = db.Column(db.String(60), nullable=True, default="password")
     full_name = db.Column(db.String(100), unique=True, nullable=False)
     date_of_birth = db.Column(db.String, nullable=False)
     grade = db.Column(db.Integer, nullable=False)
@@ -19,5 +19,5 @@ class User(db.Model, UserMixin):
     image_file = db.Column(db.String(20), nullable=False, default='default.jpg')
 
     def __repr__(self):
-        return f"User('{self.username}', '{self.email}', '{self.address}')"
+        return f"User('{self.full_name}', '{self.email}', '{self.address}')"
 

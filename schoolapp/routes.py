@@ -3,7 +3,7 @@ import secrets
 from PIL import Image
 from flask import render_template, url_for, flash, redirect, request
 from schoolapp import app, db, bcrypt
-from schoolapp.forms import RegistrationForm, LoginForm, UpdateAccountForm
+from schoolapp.forms import RegistrationForm, LoginForm, UpdateAccountForm, InsertForm
 from schoolapp.models import User
 from flask_login import login_user, current_user, logout_user, login_required
 
@@ -13,6 +13,53 @@ from flask_login import login_user, current_user, logout_user, login_required
 def home():
     users = User.query.all()
     return render_template('home.html', users=users)
+
+
+@app.route('/index')
+def index():
+    users = User.query.all()
+
+    return render_template("index.html", users=users)
+
+
+@app.route('/insert', methods=['POST'])
+def insert():
+    form = InsertForm()
+    if form.validate_on_submit():
+        user = User(full_name=form.full_name.data, email=form.email.data,
+                    date_of_birth=form.date_of_birth.data, address=form.address.data, grade=form.grade.data)
+        db.session.add(user)
+        db.session.commit()
+        flash("Student Inserted Successfully")
+        return redirect(url_for('index'))
+
+
+
+@app.route('/update', methods=['GET', 'POST'])
+def update():
+    form = InsertForm()
+    if request.method == 'POST':
+        full_name = form.full_name.data
+        current_user.full_name = form.full_name.data
+        current_user.email = form.email.data
+        current_user.date_of_birth = form.date_of_birth.data
+        current_user.grade = form.grade.data
+        current_user.address = form.address.data
+        db.session.commit()
+        flash("Student Updated Successfully")
+
+        return redirect(url_for('index'))
+
+
+@app.route('/delete/<id>/', methods=['GET', 'POST'])
+def delete(id):
+    user = User.query.get(id)
+    db.session.delete(user)
+    db.session.commit()
+    flash("Student Deleted Successfully")
+
+    return redirect(url_for('index'))
+
 
 
 @app.route("/about")

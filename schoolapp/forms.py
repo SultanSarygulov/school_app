@@ -7,6 +7,26 @@ import email_validator
 from schoolapp.models import User
 
 
+class InsertForm(FlaskForm):
+    full_name = StringField('Full Name',
+                           validators=[DataRequired(), Length(min=2, max=100)])
+    email = StringField('Email',
+                        validators=[DataRequired(), Email()])
+    grade = IntegerField("Grade", validators=[DataRequired()])
+    date_of_birth = StringField("Date Of Birth", validators=[DataRequired()])
+    address = StringField("Address", validators=[DataRequired()])
+
+    def validate_full_name(self, full_name):
+        user = User.query.filter_by(full_name=full_name.data).first()
+        if user:
+            raise ValidationError("That name is taken. Please Choose a different one.")
+
+    def validate_email(self, email):
+        user = User.query.filter_by(email=email.data).first()
+        if user:
+            raise ValidationError("That email is taken. Please Choose a different one.")
+
+
 class RegistrationForm(FlaskForm):
     full_name = StringField('Full Name',
                            validators=[DataRequired(), Length(min=2, max=100)])
